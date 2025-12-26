@@ -32,7 +32,8 @@ jobs:
 
       - name: Inject API Key
         run: |
-          sed -i "s/NINJA_API_KEY: ''/NINJA_API_KEY: '${{ secrets.NINJA_API_KEY }}'/g" index.tsx
+          echo "NINJA_API_KEY=${{ secrets.NINJA_API_KEY }}" > .env
+          bun sync-env.ts
 
 
 

@@ -1,10 +1,10 @@
 {
-  "name": "how-to-answer:-what-are-your-salary-expectations?",
+  "name": "how-to-answer-salary-expectations",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "ng serve",
+    "dev": "bun sync-env.ts && ng serve",
     "build": "ng build",
     "preview": "ng serve --configuration=production"
   },
