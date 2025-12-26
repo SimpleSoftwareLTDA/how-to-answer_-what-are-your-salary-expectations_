@@ -1,0 +1,15 @@
+@if (message()) {
+  <div class="bg-red-900/50 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl relative" role="alert">
+    <div class="flex items-center">
+      <div class="py-1">
+        <svg class="fill-current h-6 w-6 text-red-400 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8zm-1-4a1 1 0 0 1-2 0V9a1 1 0 1 1 2 0v5zm2 0a1 1 0 0 1-2 0V9a1 1 0 1 1 2 0v5zM9 5a1 1 0 1 1 2 0 1 1 0 0 1-2 0z"/>
+        </svg>
+      </div>
+      <div>
+        <strong class="font-bold">{{ translations.translate('errorTitle')() }}</strong>
+        <span class="block sm:inline ml-2">{{ message() }}</span>
+      </div>
+    </div>
+  </div>
+}

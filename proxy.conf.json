@@ -1,0 +1,10 @@
+{
+    "/api/v2": {
+        "target": "https://piloterr.com",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api/v2": "/api/v2"
+        }
+    }
+}

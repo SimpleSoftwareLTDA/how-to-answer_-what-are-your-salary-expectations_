@@ -1,0 +1,109 @@
+<div class="relative min-h-screen w-full bg-gradient-to-br from-gray-900 to-slate-800 text-gray-200 p-4 sm:p-8">
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'%3e%3cg fill=\'%231a202c\' fill-opacity=\'0.4\'%3e%3crect x=\'0\' y=\'0\' width=\'50\' height=\'50\'/%3e%3crect x=\'50\' y=\'50\' width=\'50\' height=\'50\'/%3e%3c/g%3e%3c/svg%3e')] opacity-20"></div>
+
+  <button (click)="toggleLanguage()" class="absolute top-4 left-4 sm:top-6 sm:left-6 z-20 bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-sky-500/20 transition-colors">
+    {{ translations.language() === 'en' ? 'PT' : 'EN' }}
+  </button>
+  
+  <main class="relative z-10 max-w-4xl mx-auto flex flex-col items-center space-y-8">
+    
+    <header class="text-center space-y-2 pt-12">
+      <h1 class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">
+        {{ translations.translate('title')() }}
+      </h1>
+      <p class="text-lg text-gray-400">
+        {{ translations.translate('subtitle')() }}
+      </p>
+      <p class="text-sm text-gray-500 max-w-lg mx-auto pt-2">
+        {{ translations.translate('dataSourceNotice')() }}
+      </p>
+    </header>
+
+    <div class="w-full p-6 sm:p-8 bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl space-y-6">
+      <form (ngSubmit)="search()" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="jobTitle" class="block text-sm font-medium text-gray-300 mb-2">{{ translations.translate('jobTitleLabel')() }}</label>
+            <input 
+              id="jobTitle"
+              name="jobTitle"
+              type="text" 
+              [(ngModel)]="jobTitleCompany"
+              [placeholder]="translations.translate('jobTitlePlaceholder')()"
+              class="w-full bg-gray-800/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition duration-200"
+            />
+          </div>
+          <div>
+            <label for="location" class="block text-sm font-medium text-gray-300 mb-2">{{ translations.translate('locationLabel')() }}</label>
+            <input 
+              id="location"
+              name="location"
+              type="text" 
+              [(ngModel)]="location"
+              [placeholder]="translations.translate('locationPlaceholder')()"
+              class="w-full bg-gray-800/50 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition duration-200"
+            />
+          </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center space-x-3">
+            <button 
+              type="button"
+              (click)="toggleMockData()"
+              [class]="useMockData() ? 'bg-sky-500' : 'bg-gray-600'"
+              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            >
+              <span
+                [class]="useMockData() ? 'translate-x-6' : 'translate-x-1'"
+                class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ease-in-out"
+              ></span>
+            </button>
+            <label class="text-gray-300 select-none cursor-pointer" (click)="toggleMockData()">
+              {{ translations.translate('useMockDataLabel')() }}
+            </label>
+          </div>
+
+          <button type="submit" [disabled]="loading()" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:bg-sky-800 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-lg shadow-sky-500/20">
+            @if (loading()) {
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>{{ translations.translate('searchingButton')() }}</span>
+            } @else {
+              <span>{{ translations.translate('searchButton')() }}</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="w-full min-h-[300px]">
+      @if (loading()) {
+        <app-spinner />
+      } @else if (error()) {
+        <app-error-message [message]="error()" />
+      } @else if (results().length > 0) {
+        <app-results-list [jobs]="results()" />
+      } @else if (searched()) {
+        <div class="flex flex-col items-center justify-center text-center p-8 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h3 class="text-xl font-semibold text-white">{{ translations.translate('noResultsTitle')() }}</h3>
+            <p class="text-gray-400 mt-1">{{ translations.translate('noResultsSubtitle')() }}</p>
+        </div>
+      } @else {
+        <div class="flex flex-col items-center justify-center text-center p-8 bg-black/20 backdrop-blur-lg border border-white/10 rounded-2xl h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-xl font-semibold text-white">{{ translations.translate('initialStateTitle')() }}</h3>
+            <p class="text-gray-400 mt-1">{{ translations.translate('initialStateSubtitle')() }}</p>
+        </div>
+      }
+    </div>
+
+  </main>
+</div>
