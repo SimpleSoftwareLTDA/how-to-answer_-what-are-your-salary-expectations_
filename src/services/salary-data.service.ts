@@ -20,7 +20,8 @@ interface PiloterrResponse {
 })
 export class SalaryDataService {
   private http = inject(HttpClient);
-  private apiUrl = '/ninja-api/jsearch/estimated-salary';
+  private apiUrl = 'https://api.openwebninja.com/jsearch/estimated-salary';
+
 
 
   private apiKey = process.env.API_KEY;
