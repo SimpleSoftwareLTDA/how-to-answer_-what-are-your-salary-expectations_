@@ -1,0 +1,7 @@
+name = "salary-api-proxy"
+main = "index.js"
+compatibility_date = "2024-04-01"
+
+[vars]
+# Public vars go here
+# Secrets like NINJA_API_KEY must be set via `wrangler secret put NINJA_API_KEY`

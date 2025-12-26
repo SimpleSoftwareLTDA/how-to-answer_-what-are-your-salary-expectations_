@@ -25,26 +25,14 @@ interface PiloterrResponse {
 })
 export class SalaryDataService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://api.openwebninja.com/jsearch/company-job-salary';
-
-
-
-
+  // Points to your future Cloudflare Worker URL
+  private apiUrl = 'https://salary-api-proxy.robson.workers.dev';
 
   searchSalaries(jobTitle: string, company: string): Observable<JobSalary[]> {
-
-
-
-    const apiKey = (window as any).process?.env?.API_KEY;
-
-    if (!apiKey) {
-      console.error('API_KEY environment variable is not set.');
-      return throwError(() => new Error('Search failed: API configuration missing.'));
-    }
-
+    // The API key is now handled by the Cloudflare Worker (BFF Pattern)
+    // No headers needed on the client side
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey
+      'Content-Type': 'application/json'
     });
 
 
