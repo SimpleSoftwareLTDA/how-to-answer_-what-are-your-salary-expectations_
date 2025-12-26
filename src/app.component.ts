@@ -30,8 +30,8 @@ export class AppComponent {
 
 
   searchForm = this.fb.group({
-    jobTitle: ['Software Engineer at Google', Validators.required],
-    location: ['San Francisco', Validators.required]
+    jobTitle: ['Software Engineer', Validators.required],
+    company: ['Google', Validators.required]
   });
 
 
@@ -53,9 +53,9 @@ export class AppComponent {
     this.results.set([]);
     this.searched.set(true);
 
-    const { jobTitle, location } = this.searchForm.getRawValue();
+    const { jobTitle, company } = this.searchForm.getRawValue();
 
-    this.salaryDataService.searchSalaries(jobTitle || '', location || '')
+    this.salaryDataService.searchSalaries(jobTitle || '', company || '')
 
 
       .pipe(

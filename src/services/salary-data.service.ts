@@ -31,7 +31,7 @@ export class SalaryDataService {
 
 
 
-  searchSalaries(jobTitle: string, location: string): Observable<JobSalary[]> {
+  searchSalaries(jobTitle: string, company: string): Observable<JobSalary[]> {
 
 
 
@@ -59,23 +59,15 @@ export class SalaryDataService {
     // curl '...company=Amazon&job_title=software%20developer...'
 
     // Let's parse the jobTitle string. If it's "Software Engineer at Google", company="Google", title="Software Engineer".
-    const parts = jobTitle.split(' at ');
-    const titleParam = parts[0];
-    const companyParam = parts.length > 1 ? parts[1] : '';
-
-    // If no company is provided, the API might fail or we might need to change the UI. 
-    // Let's assume for this step we try to parse, and if not present, maybe we send it as just job_title and see (or maybe the user wants us to hardcode or just change the logic).
-    // The user asked "change the api call to this", implying the parameters SHOULD be used.
+    // We no longer need to parse " at " because we have explicit inputs.
+    // The user requirement says "change the input fields to only ask for job tilte and company".
+    // It also implies the output should change.
 
     const params: any = {
-      job_title: titleParam,
-      location: location, // The new API response example has "location": "United States", so it likely accepts location too.
-      years_of_experience: 'LESS_THAN_ONE' // Hardcoded as per request example or maybe exposed later
+      job_title: jobTitle,
+      company: company,
+      years_of_experience: 'LESS_THAN_ONE' // Hardcoded as per request example
     };
-
-    if (companyParam) {
-      params['company'] = companyParam;
-    }
 
 
 
@@ -94,22 +86,30 @@ export class SalaryDataService {
             id: response.request_id || `job-${index}`, // Request ID is at root in new response
             title: job.job_title || 'Unknown Title',
             location: job.location || 'Unknown Location',
-            base_salary: formatSalary(job.median_base_salary),
-            range: `${formatSalary(job.min_base_salary)} - ${formatSalary(job.max_base_salary)}`,
+            base_salary: `${formatSalary(job.median_base_salary)}/yr`, // Explicitly Annual
+            range: `${formatSalary(job.median_base_salary / 12)}/mo`, // Display Monthly as the "secondary" or separate field? 
+            // The user said "Make the output return the salary annually and monthly"
+            // I'll repurpose the 'range' field to show the monthly value for now, or concat both?
+            // "base_salary": "$120k/yr | $10k/mo" ?
+            // Let's modify base_salary to show annual and range to show monthly for better UI fit without changing the interface too much yet.
+            // Or better:
+            // base_salary: "$120,070/yr",
+            // range: "$10,006/mo", 
+
             currency: currency,
             period: period,
             confidence: job.confidence || 'UNKNOWN',
-            publisher_link: '#', // New response doesn't show publisher_link in example, defaulting to #
-            updated_at: new Date().toISOString() // New response doesn't show salaries_updated_at in example
+            publisher_link: '#',
+            updated_at: new Date().toISOString()
           };
-        };
-      });
-  }),
-  catchError(error => {
-    console.error('API Error:', error);
-return throwError(() => new Error('Failed to fetch data from OpenWeb Ninja API.'));
+        });
+      }),
+      catchError(error => {
+        console.error('API Error:', error);
+        return throwError(() => new Error('Failed to fetch data from OpenWeb Ninja API.'));
       })
     );
+
 
 
   }
