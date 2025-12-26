@@ -1,5 +1,6 @@
 // @ts-ignore
-window.process = { env: { API_KEY: '' } }; // Set this locally or via environment variables for development.
+window.process = { env: { API_KEY: 'ak_8oionbmvjqgge6uksyvi03l0r8gzfvr94g5xjoejcmd8bwp' } }; // Set this locally or via environment variables for development.
+
 
 
 
