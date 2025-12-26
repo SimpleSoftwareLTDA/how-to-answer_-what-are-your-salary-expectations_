@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
@@ -23,7 +23,7 @@ import { ErrorMessageComponent } from './components/error-message/error-message.
   ],
 })
 
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   private salaryDataService = inject(SalaryDataService);
   private fb = inject(FormBuilder);
   public translations = inject(TranslationService);
@@ -80,5 +80,28 @@ export class AppComponent {
 
   toggleLanguage(): void {
     this.translations.language.update(lang => lang === 'en' ? 'pt' : 'en');
+  }
+
+  ngAfterViewInit(): void {
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'SimpleSoftwareLTDA/what-are-your-salary-expectation');
+    script.setAttribute('data-repo-id', 'R_kgDOQvR7dg');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOQvR7ds4C0RMH');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'preferred_color_scheme');
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    // We append it to the body or the specifically created container if needed, 
+    // but usually appending to the document is enough as it looks for .giscus class.
+    document.body.appendChild(script);
   }
 }
