@@ -30,8 +30,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Inject API Key
+        run: |
+          sed -i "s/API_KEY: ''/API_KEY: '${{ secrets.NINJA_API_KEY }}'/g" index.tsx
+
+
       - name: Build
         run: bun run build
+
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -5,6 +5,9 @@
         "changeOrigin": true,
         "pathRewrite": {
             "^/ninja-api": ""
+        },
+        "headers": {
+            "x-api-key": "ak_8oionbmvjqgge6uksyvi03l0r8gzfvr94g5xjoejcmd8bwp"
         }
     }
 }

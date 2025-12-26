@@ -52,16 +52,16 @@ export class SalaryDataService {
 
 
     const apiKey = (window as any).process?.env?.API_KEY;
+    const headersConfig: any = {
+      'Content-Type': 'application/json'
+    };
 
-    if (!apiKey || apiKey === 'YOUR_PILOTERR_API_KEY_HERE') {
-      console.error('API key is not configured.');
-      return throwError(() => new Error('API key is missing or placeholder. Please set a valid Piloterr API key.'));
+    if (apiKey) {
+      headersConfig['x-api-key'] = apiKey;
     }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey
-    });
+    const headers = new HttpHeaders(headersConfig);
+
 
 
     const params = {
