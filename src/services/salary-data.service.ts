@@ -9,6 +9,11 @@ export interface JobSalary {
   location: string;
   base_salary: string;
   range: string;
+  currency: string;
+  period: string;
+  confidence: string;
+  publisher_link: string;
+  updated_at: string;
 }
 
 interface PiloterrResponse {
@@ -61,14 +66,20 @@ export class SalaryDataService {
           const formatSalary = (val: number | null) => val ? new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 0 }).format(val) : 'N/A';
 
           return {
-            id: `job-${index}`,
+            id: job.request_id || `job-${index}`,
             title: job.job_title || 'Unknown Title',
             location: job.location || 'Unknown Location',
-            base_salary: `${formatSalary(job.median_base_salary)}${period}`,
-            range: `${formatSalary(job.min_base_salary)} - ${formatSalary(job.max_base_salary)}`
+            base_salary: formatSalary(job.median_base_salary),
+            range: `${formatSalary(job.min_base_salary)} - ${formatSalary(job.max_base_salary)}`,
+            currency: currency,
+            period: period,
+            confidence: job.confidence || 'UNKNOWN',
+            publisher_link: job.publisher_link || '#',
+            updated_at: job.salaries_updated_at || new Date().toISOString()
           };
         });
       }),
+
       catchError(error => {
         console.error('API Error:', error);
         return throwError(() => new Error('Failed to fetch data from OpenWeb Ninja API.'));
