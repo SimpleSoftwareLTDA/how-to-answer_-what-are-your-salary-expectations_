@@ -24,6 +24,11 @@ const translations = {
     errorEmptySearch: 'Please enter a job title or location to search.',
     errorNoResults: 'No results found for your query. Try being more specific or broader.',
     errorApi: 'An error occurred while fetching data. The API might be down or your API key could be invalid.',
+    faqTitle: 'Frequently Asked Questions',
+    faq1Q: 'How do I answer "What are your salary expectations?"',
+    faq1A: 'The best approach is to provide a range based on market research. Use this tool to find real-world data and negotiate with confidence.',
+    faq2Q: 'Why use real-world data for negotiations?',
+    faq2A: 'Data-driven negotiations are more objective and persuasive. Knowing the market value for your role and location gives you leverage.',
   },
   pt: {
     title: 'Como Responder: Qual é a sua expectativa salarial?',
@@ -46,7 +51,13 @@ const translations = {
     errorEmptySearch: 'Por favor, insira um cargo ou local para pesquisar.',
     errorNoResults: 'Nenhum resultado encontrado para sua busca. Tente ser mais específico ou mais amplo.',
     errorApi: 'Ocorreu um erro ao buscar os dados. A API pode estar fora do ar ou sua chave de API pode ser inválida.',
+    faqTitle: 'Perguntas Frequentes',
+    faq1Q: 'Como respondo "Qual é a sua expectativa salarial?"',
+    faq1A: 'A melhor abordagem é fornecer uma faixa baseada em pesquisa de mercado. Use esta ferramenta para encontrar dados reais e negociar com confiança.',
+    faq2Q: 'Por que usar dados reais para negociações?',
+    faq2A: 'Negociações baseadas em dados são mais objetivas e persuasivas. Saber o valor de mercado para seu cargo e local te dá vantagem.',
   }
+
 };
 
 type TranslationKey = keyof (typeof translations)['en'];
