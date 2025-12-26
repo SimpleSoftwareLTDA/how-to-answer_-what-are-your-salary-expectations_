@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "ng serve",
     "build": "ng build",
+    "build:worker": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy",
     "preview": "ng serve --configuration=production"
   },
   "dependencies": {
