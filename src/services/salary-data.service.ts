@@ -26,7 +26,7 @@ interface PiloterrResponse {
 export class SalaryDataService {
   private http = inject(HttpClient);
   // Points to your future Cloudflare Worker URL
-  private apiUrl = 'https://salary-api-proxy.robson-cassiano.workers.dev';
+  private apiUrl = 'https://salary-api-proxy.robson-cassiano.workers.dev/ninja-api';
 
   searchSalaries(jobTitle: string, company: string): Observable<JobSalary[]> {
     // The API key is now handled by the Cloudflare Worker (BFF Pattern)
